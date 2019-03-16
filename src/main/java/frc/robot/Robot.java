@@ -130,6 +130,8 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putNumber("Wrist Encoder", wristControl.getEncoder().getPosition());
+    SmartDashboard.putNumber("Elevator Encoder", elevatorControl.getEncoder().getPosition());
     
   }
 
@@ -143,13 +145,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-   // AnalogInput pressureSensor = new AnalogInput(0);
-   // int raw = pressureSensor.getValue();
-   // double volts = pressureSensor.getVoltage();
-   // int averageRaw = pressureSensor.getAverageValue();
-   // double averageVolts = pressureSensor.getAverageVoltage();
-   // double psi = 250*(raw/volts) - 25;
-   // SmartDashboard.putNumber("psi", psi);
+    /*AnalogInput pressureSensor = new AnalogInput(0);
+    int raw = pressureSensor.getValue();
+    double volts = pressureSensor.getVoltage();
+    int averageRaw = pressureSensor.getAverageValue();
+    double averageVolts = pressureSensor.getAverageVoltage();
+    double psi = 250*(raw/volts) - 25;
+    SmartDashboard.putNumber("psi", psi);*/
 }
 
   /**
@@ -207,6 +209,29 @@ public class Robot extends TimedRobot {
     else {
         intake.set(0);
     }
+     //elevator code starts here
+     if (tankStick.getRawButton(7) == true){
+        wristControl.set(-1);
+        
+    }
+    else if (tankStick.getRawButton(9) == true){
+        wristControl.set(1);
+    
+    }
+    else{
+        wristControl.set(0);
+    }
+    //arm code starts here
+    if (tankStick.getRawButton(8) == true){
+        armControl.set(1);
+    }
+    else if (tankStick.getRawButton(10) == true){
+        armControl.set(-1);
+    }
+    else {
+        armControl.set(0);
+    }
+    
     }
  /*   if (tankStick.getRawButton(11)== true){
       while (wristControl.getEncoder().getPosition() > -233){
@@ -368,31 +393,27 @@ public class Robot extends TimedRobot {
         intake.set(0);
     }
     //elevator code starts here
-    if (tankStick.getRawButton(7) == true && wristControl.getEncoder().getPosition() > -300){
+    if (tankStick.getRawButton(7) == true){
         wristControl.set(-1);
-        elevatorControl.set(0);
+        
     }
-    else if (tankStick.getRawButton(7) == true && wristControl.getEncoder().getPosition() <= -300 && elevatorControl.getEncoder().getPosition() > -300){
-        wristControl.set(0);
-        elevatorControl.set(-1);
-    }
-    else {
-        wristControl.set(0);
-        elevatorControl.set(0);
-    }
-    if (tankStick.getRawButton(9) == true && elevatorControl.getEncoder().getPosition() < 0 && wristControl.getEncoder().getPosition() <= -300){
-        wristControl.set(0);
-        elevatorControl.set(1);
-    }
-    else if (tankStick.getRawButton(9) == true && wristControl.getEncoder().getPosition() < 0){
+    else if (tankStick.getRawButton(9) == true){
         wristControl.set(1);
-        elevatorControl.set(0);
+    
+    }
+    else{
+        wristControl.set(0);
+    }
+    //arm code starts here
+    if (tankStick.getRawButton(8) == true){
+        armControl.set(1);
+    }
+    else if (tankStick.getRawButton(10) == true){
+        armControl.set(-1);
     }
     else {
-        wristControl.set(0);
-        elevatorControl.set(0);
+        armControl.set(0);
     }
-    
     }
   /*  if (tankStick.getRawButton(11)== true){
       while (wristControl.getEncoder().getPosition() > -233){
